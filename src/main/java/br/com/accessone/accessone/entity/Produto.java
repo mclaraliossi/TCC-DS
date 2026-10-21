@@ -21,7 +21,7 @@ public class Produto {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer idProduto;
+    private Long idProduto;
 
     @Column(nullable = false, length = 50)
     private String nomeProduto;
@@ -48,24 +48,24 @@ public class Produto {
 
     private Double porcaoProduto;
 
-    private  valorenergeticoProduto;
+    private String valorenergeticoProduto;
 
-    private  carboidratosProduto;
+    private String carboidratosProduto;
 
-    private proteinasProduto;
+    private String proteinasProduto;
 
-    private gordurastotaisProduto;
+    private String gordurastotaisProduto;
 
-    private gordurassaturadasProduto;
+    private String gordurassaturadasProduto;
 
-    private fibrasProduto;
+    private String fibrasProduto;
 
-    private sodioProduto;
+    private String sodioProduto;
 
-    private ingredientesProduto;
-
+    @Column(nullable = false, length = 100)
     private String ingredientesProduto;
 
+    @Column(nullable = false, length = 100)
     private String alergicosProduto;
 
 

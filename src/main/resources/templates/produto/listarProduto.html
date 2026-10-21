@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 class="textPrincipal">Listagem de Produtos</h1>
+    <h3 class="textTerciario"><a th:href="@{/produtos/criar}">Criar novo Produto</a></h3>
+    <table class="tabelaListar" >
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Marca</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Validade</th>
+                <th>Data de Fabricação</th>
+                <th>Lote</th>
+                <th>País de Origem</th>
+                <th>Porção</th>
+                <th>Valor Energético</th>
+                <th>Carboidratos</th>
+                <th>Proteínas</th>
+                <th>Gorduras Totais</th>
+                <th>Gorduras Saturadas</th>
+                <th>Fibras</th>
+                <th>Sódio</th>
+                <th>Ingredientes</th>
+                <th>Alérgicos</th>
+                <th colspan="2">Ações</th>
+            </tr>
+        </thead>
+    
+        <tbody>
+            <tr th:each="produto : ${produtos}">
+    
+                <td th:text="${produto.nomeProduto}"></td>
+                <td th:text="${produto.marcaProduto}"></td>
+                <td th:text="${produto.descricaoProduto}"></td>
+                <td th:text="${produto.precoProduto}"></td>
+                <td th:text="${produto.validadeProduto}"></td>
+                <td th:text="${produto.datafabricacaoProduto}"></td>
+                <td th:text="${produto.loteProduto}"></td>
+                <td th:text="${produto.paisorigemProduto}"></td>
+                <td th:text="${produto.porcaoProduto}"></td>
+                <td th:text="${produto.valorenergeticoProduto}"></td>
+                <td th:text="${produto.carboidratosProduto}"></td>
+                <td th:text="${produto.proteinasProduto}"></td>
+                <td th:text="${produto.gordurastotaisProduto}"></td>
+                <td th:text="${produto.gordurassaturadasProduto}"></td>
+                <td th:text="${produto.fibrasProduto}"></td>
+                <td th:text="${produto.sodioProduto}"></td>
+                <td th:text="${produto.ingredientesProduto}"></td>
+                <td th:text="${produto.alergicosProduto}"></td>
+                <td>
+                    <a class="linkTabelaListar" th:href="@{/produtos/editar/{id}(id=${produto.idProduto})}">Editar</a>
+                    <a class="linkTabelaListar" th:href="@{/produtos/excluir/{id}(id=${produto.idProduto})}">Excluir</a>
+                </td>
+</body>
+</html>
