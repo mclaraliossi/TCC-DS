@@ -44,6 +44,9 @@ public class Produto {
     @Column(nullable = false, length = 30)
     private String paisorigemProduto;
 
+    @Column(nullable = false, length = 100)
+    private String empresaProduto;
+
     // Tabela nutricional do produto
 
     private Double porcaoProduto;
@@ -67,6 +70,8 @@ public class Produto {
 
     @Column(nullable = false, length = 100)
     private String alergicosProduto;
+
+    
 
 
 
