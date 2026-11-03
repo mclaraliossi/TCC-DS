@@ -45,8 +45,10 @@ public class SecurityConfig {
 
             // Configura a página de login personalizada.
             .formLogin(form -> form
-                .loginPage("/login")
+                .loginPage("/accessone/login")
+                .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/redirecionar", true)
+                .failureUrl("/accessone/login?error")
                 .permitAll()
             )
 

@@ -15,4 +15,9 @@ public class AccessOneController {
     public String index(Model model){
         return "index";
     }
+
+    @GetMapping("/")
+    public String inicio() {
+        return "redirect:/accessone";
+    }
 }
