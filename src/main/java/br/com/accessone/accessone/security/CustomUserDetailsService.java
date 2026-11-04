@@ -1,4 +1,4 @@
-package br.com.accessone.accessone.service;
+package br.com.accessone.accessone.security;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.accessone.accessone.entity.Usuario;
+import br.com.accessone.accessone.service.UsuarioService;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

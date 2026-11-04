@@ -10,7 +10,7 @@ import br.com.accessone.accessone.entity.Role;
 import br.com.accessone.accessone.entity.Usuario;
 import br.com.accessone.accessone.repository.EmpresaRepository;
 import br.com.accessone.accessone.repository.UsuarioRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EmpresaService {

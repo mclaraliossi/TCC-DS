@@ -1,3 +1,4 @@
+
 package br.com.accessone.accessone.service;
 
 import java.util.List;
@@ -10,28 +11,32 @@ import org.springframework.stereotype.Service;
 import br.com.accessone.accessone.entity.Usuario;
 import br.com.accessone.accessone.repository.UsuarioRepository;
 
+// Indica ao Spring que esta classe contém lógica de serviço.
 @Service
 public class UsuarioService {
-    
+
+    // Dependência responsável por consultar e salvar os usuários.
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    // Responsável por criptografar as senhas.
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Usuario save(Usuario usuario){
-        // Criptográfa a senha antes de salvar
-        usuario.setSenhaUsuario(passwordEncoder.encode(usuario.getSenhaUsuario()));
+    // Salva o usuário após criptografar sua senha.
+    public Usuario save(Usuario usuario) {
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
-      }
-    
-      public Usuario findById(Integer id){
-            return usuarioRepository.findById(id).orElse(null);
-        }
-    
-        public List<Usuario> findAll(){
-            return usuarioRepository.findAll();
-            
+    }
+
+    // Busca um usuário pelo seu ID.
+    public Usuario findById(Long id) {
+        return usuarioRepository.findById(id).orElse(null);
+    }
+
+    // Retorna todos os usuários cadastrados.
+    public List<Usuario> findAll() {
+        return usuarioRepository.findAll();
     }
 
     // Busca uma conta pelo e-mail normalizado.

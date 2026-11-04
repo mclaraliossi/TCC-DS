@@ -1,4 +1,4 @@
-package br.com.accessone.accessone.config;
+package br.com.accessone.accessone.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

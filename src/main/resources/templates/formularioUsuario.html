@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro de Empresa - AccessOne</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f3f5f7;
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: auto;
+            background-color: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #245b78;
+            margin-bottom: 10px;
+        }
+
+        .descricao {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #245b78;
+            font-size: 20px;
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e5e5e5;
+        }
+
+        .campo {
+            margin-bottom: 17px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #245b78;
+        }
+
+        .linha {
+            display: flex;
+            gap: 15px;
+        }
+
+        .linha .campo {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .botao {
+            width: 100%;
+            padding: 14px;
+            background-color: #245b78;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .botao:hover {
+            background-color: #19445c;
+        }
+
+        .login {
+            text-align: center;
+            margin-top: 20px;
+            color: #555;
+        }
+
+        .login a {
+            color: #245b78;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 22px;
+            }
+
+            .linha {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Cadastro de Empresa</h1>
+
+        <p class="descricao">
+            Preencha os dados abaixo para cadastrar sua empresa no AccessOne.
+        </p>
+
+        <form th:action="@{/cadastro/empresa}"
+              th:object="${cadastroEmpresa}"
+              method="post">
+
+            <!-- DADOS DO USUÁRIO RESPONSÁVEL -->
+
+            <h2>Dados do Responsável</h2>
+
+            <div class="campo">
+                <label for="nome">Nome completo:</label>
+
+                <input type="text"
+                       id="nome"
+                       th:field="*{nome}"
+                       placeholder="Digite seu nome completo"
+                       required>
+            </div>
+
+            <div class="campo">
+                <label for="email">E-mail:</label>
+
+                <input type="email"
+                       id="email"
+                       th:field="*{email}"
+                       placeholder="exemplo@email.com"
+                       required>
+            </div>
+
+            <div class="linha">
+
+                <div class="campo">
+                    <label for="senha">Senha:</label>
+
+                    <input type="password"
+                           id="senha"
+                           th:field="*{senha}"
+                           placeholder="Crie uma senha"
+                           required>
+                </div>
+
+                <div class="campo">
+                    <label for="confirmarSenha">Confirmar senha:</label>
+
+                    <input type="password"
+                           id="confirmarSenha"
+                           name="confirmarSenha"
+                           placeholder="Digite a senha novamente"
+                           required>
+                </div>
+
+            </div>
+
+            <!-- DADOS DA EMPRESA -->
+
+            <h2>Dados da Empresa</h2>
+
+            <div class="campo">
+                <label for="razaoSocial">Razão Social:</label>
+
+                <input type="text"
+                       id="razaoSocial"
+                       th:field="*{razaoSocial}"
+                       placeholder="Digite a razão social"
+                       required>
+            </div>
+
+            <div class="linha">
+
+                <div class="campo">
+                    <label for="cnpj">CNPJ:</label>
+
+                    <input type="text"
+                           id="cnpj"
+                           th:field="*{cnpj}"
+                           placeholder="00.000.000/0000-00"
+                           required>
+                </div>
+
+                <div class="campo">
+                    <label for="inscricaoEstadual">
+                        Inscrição Estadual:
+                    </label>
+
+                    <input type="text"
+                           id="inscricaoEstadual"
+                           th:field="*{inscricaoEstadual}"
+                           placeholder="Inscrição Estadual">
+                </div>
+
+            </div>
+
+            <div class="campo">
+                <label for="endereco">Endereço completo:</label>
+
+                <input type="text"
+                       id="endereco"
+                       th:field="*{endereco}"
+                       placeholder="Rua, número, bairro, cidade e estado"
+                       required>
+            </div>
+
+            <!-- BOTÃO DE CADASTRO -->
+
+            <button type="submit" class="botao">
+                Cadastrar Empresa
+            </button>
+
+        </form>
+
+        <p class="login">
+            Já possui uma conta?
+            <a th:href="@{/login}">Faça login</a>
+        </p>
+
+    </div>
+
+</body>
+</html>
