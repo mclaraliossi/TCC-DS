@@ -11,7 +11,7 @@ INSERT INTO usuarios (
 )
 VALUES (
     'Administrador',
-    'admin@email.com',
+    'admin@gmail.com',
     crypt(
         'admin1234567',
         gen_salt('bf', 12)
