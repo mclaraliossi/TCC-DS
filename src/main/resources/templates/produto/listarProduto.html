@@ -1,64 +1,256 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Meus Produtos - AccessOne</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
 </head>
+
 <body>
-    <h1 class="textPrincipal">Listagem de Produtos</h1>
-    <h3 class="textTerciario"><a th:href="@{/produtos/criar}">Criar novo Produto</a></h3>
-    <table class="tabelaListar" >
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Marca</th>
-                <th>Descrição</th>
-                <th>Preço</th>
-                <th>Validade</th>
-                <th>Data de Fabricação</th>
-                <th>Lote</th>
-                <th>País de Origem</th>
-                <th>Empresa</th>
-                <th>Porção</th>
-                <th>Valor Energético</th>
-                <th>Carboidratos</th>
-                <th>Proteínas</th>
-                <th>Gorduras Totais</th>
-                <th>Gorduras Saturadas</th>
-                <th>Fibras</th>
-                <th>Sódio</th>
-                <th>Ingredientes</th>
-                <th>Alérgicos</th>
-                <th colspan="2">Ações</th>
-            </tr>
-        </thead>
-    
-        <tbody>
-            <tr th:each="produto : ${produtos}">
-    
-                <td th:text="${produto.nomeProduto}"></td>
-                <td th:text="${produto.marcaProduto}"></td>
-                <td th:text="${produto.descricaoProduto}"></td>
-                <td th:text="${produto.precoProduto}"></td>
-                <td th:text="${produto.validadeProduto}"></td>
-                <td th:text="${produto.datafabricacaoProduto}"></td>
-                <td th:text="${produto.loteProduto}"></td>
-                <td th:text="${produto.paisorigemProduto}"></td>
-                <td th:text="${produto.empresaProduto}"></td>
-                <td th:text="${produto.porcaoProduto}"></td>
-                <td th:text="${produto.valorenergeticoProduto}"></td>
-                <td th:text="${produto.carboidratosProduto}"></td>
-                <td th:text="${produto.proteinasProduto}"></td>
-                <td th:text="${produto.gordurastotaisProduto}"></td>
-                <td th:text="${produto.gordurassaturadasProduto}"></td>
-                <td th:text="${produto.fibrasProduto}"></td>
-                <td th:text="${produto.sodioProduto}"></td>
-                <td th:text="${produto.ingredientesProduto}"></td>
-                <td th:text="${produto.alergicosProduto}"></td>
-                <td>
-                    <a class="linkTabelaListar" th:href="@{/produtos/editar/{id}(id=${produto.idProduto})}">Editar</a>
-                    <a class="linkTabelaListar" th:href="@{/produtos/excluir/{id}(id=${produto.idProduto})}">Excluir</a>
-                </td>
+
+<header class="cabecalho">
+
+    <nav class="nav">
+
+        <a class="logo"
+           th:href="@{/empresa/minha}">
+            AccessOne
+        </a>
+
+        <div class="navegacao">
+
+            <a th:href="@{/empresa/minha}">
+                Meu painel
+            </a>
+
+            <a class="botao"
+               th:href="@{/produtos/criar}">
+                Cadastrar produto
+            </a>
+
+        </div>
+
+    </nav>
+
+</header>
+
+<main class="container">
+
+    <section class="card">
+
+        <h1>Meus produtos</h1>
+
+        <p class="subtitulo">
+            Esta lista apresenta apenas os produtos
+            associados à sua empresa.
+        </p>
+
+        <p class="aviso-ok"
+           th:if="${param.salvo}">
+            Produto salvo com sucesso.
+        </p>
+
+        <p class="aviso-ok"
+           th:if="${param.excluido}">
+            Produto excluído com sucesso.
+        </p>
+
+        <p th:if="${#lists.isEmpty(produtos)}">
+
+            Sua empresa ainda não possui produtos cadastrados.
+
+            <a th:href="@{/produtos/criar}">
+                Cadastrar primeiro produto
+            </a>
+
+        </p>
+
+        <div class="tabela-rolavel"
+             th:unless="${#lists.isEmpty(produtos)}">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Imagem</th>
+                        <th>Produto</th>
+                        <th>Marca</th>
+                        <th>Preço</th>
+                        <th>Validade</th>
+                        <th>Detalhes</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr th:each="produto : ${produtos}">
+
+                        <!-- Imagem -->
+
+                        <td>
+
+                            <img class="produto-imagem"
+                                 th:if="${produto.imagemUrl != null and !produto.imagemUrl.isEmpty()}"
+                                 th:src="${produto.imagemUrl}"
+                                 th:alt="|Imagem de ${produto.nomeProduto}|"
+                                 loading="lazy">
+
+                            <span th:unless="${produto.imagemUrl != null and !produto.imagemUrl.isEmpty()}">
+                                Sem imagem
+                            </span>
+
+                        </td>
+
+                        <td th:text="${produto.nomeProduto}"></td>
+
+                        <td th:text="${produto.marcaProduto}"></td>
+
+                        <td th:text="${produto.precoProduto != null ? 'R$ ' + #numbers.formatDecimal(produto.precoProduto, 1, 2) : 'Não informado'}">
+                        </td>
+
+                        <td th:text="${produto.validadeProduto != null ? #temporals.format(produto.validadeProduto, 'dd/MM/yyyy') : 'Não informada'}">
+                        </td>
+
+                        <!-- Detalhes -->
+
+                        <td>
+
+                            <details>
+
+                                <summary>
+                                    Ver informações
+                                </summary>
+
+                                <p>
+                                    <strong>Descrição:</strong>
+                                    <span th:text="${produto.descricaoProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Empresa:</strong>
+                                    <span th:text="${produto.empresaProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Fabricação:</strong>
+                                    <span th:text="${produto.datafabricacaoProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Lote:</strong>
+                                    <span th:text="${produto.loteProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Origem:</strong>
+                                    <span th:text="${produto.paisorigemProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Porção:</strong>
+                                    <span th:text="${produto.porcaoProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Valor energético:</strong>
+                                    <span th:text="${produto.valorenergeticoProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Carboidratos:</strong>
+                                    <span th:text="${produto.carboidratosProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Proteínas:</strong>
+                                    <span th:text="${produto.proteinasProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Gorduras totais:</strong>
+                                    <span th:text="${produto.gordurastotaisProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Gorduras saturadas:</strong>
+                                    <span th:text="${produto.gordurassaturadasProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Fibras:</strong>
+                                    <span th:text="${produto.fibrasProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Sódio:</strong>
+                                    <span th:text="${produto.sodioProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Ingredientes:</strong>
+                                    <span th:text="${produto.ingredientesProduto}"></span>
+                                </p>
+
+                                <p>
+                                    <strong>Alergênicos:</strong>
+                                    <span th:text="${produto.alergicosProduto}"></span>
+                                </p>
+
+                            </details>
+
+                        </td>
+
+                        <!-- Ações -->
+
+                        <td>
+
+                            <div class="acoes">
+
+                                <a class="botao secundario pequeno"
+                                   th:href="@{/produtos/editar/{id}(id=${produto.idProduto})}">
+                                    Editar
+                                </a>
+
+                                <form class="inline-form"
+                                      th:action="@{/produtos/excluir/{id}(id=${produto.idProduto})}"
+                                      method="post"
+                                      onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+
+                                    <input type="hidden"
+                                           th:if="${_csrf != null}"
+                                           th:name="${_csrf.parameterName}"
+                                           th:value="${_csrf.token}">
+
+                                    <button class="botao perigo pequeno"
+                                            type="submit">
+                                        Excluir
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
 </body>
 </html>

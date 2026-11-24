@@ -2,6 +2,7 @@ package br.com.accessone.accessone.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,13 +11,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    // Disponibiliza o BCrypt para codificar e verificar senhas.
+    // Criptografa e verifica as senhas dos usuários.
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Define as regras de autenticação e autorização HTTP.
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http) throws Exception {
@@ -24,41 +24,50 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
 
-                // Páginas que podem ser acessadas sem login.
+                // Páginas públicas e arquivos estáticos.
                 .requestMatchers(
+                    "/",
+                    "/accessone",
                     "/login",
                     "/cadastro/empresa",
                     "/css/**",
                     "/js/**",
-                    "/images/**"
+                    "/images/**",
+                    "/img/**",
+                    "/favicon.ico",
+                    "/error"
                 ).permitAll()
 
-                // Somente administradores acessam estas rotas.
-                .requestMatchers("/admin/**").hasRole("ADMIN")
+                // Somente administrador.
+                .requestMatchers("/admin/**")
+                    .hasRole("ADMIN")
 
-                // Somente empresas autenticadas acessam estas rotas.
-                .requestMatchers("/empresa/**").hasRole("EMPRESA")
+                // Somente empresas.
+                .requestMatchers(
+                    "/empresa/**",
+                    "/produtos/**"
+                ).hasRole("EMPRESA")
 
-                // Todas as outras rotas exigem autenticação.
+                // Outras páginas exigem login.
                 .anyRequest().authenticated()
             )
 
-            // Configura a página de login personalizada.
             .formLogin(form -> form
-                .loginPage("/accessone/login")
+                .loginPage("/login")
                 .loginProcessingUrl("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .defaultSuccessUrl("/redirecionar", true)
-                .failureUrl("/accessone/login?error")
+                .failureUrl("/login?error")
                 .permitAll()
             )
 
-            // Configura o destino após sair da conta.
             .logout(logout -> logout
+                .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
             );
 
-        // Mantém a proteção CSRF habilitada.
         return http.build();
     }
 }

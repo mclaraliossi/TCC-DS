@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Painel Administrativo - AccessOne</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<header class="cabecalho">
+
+    <nav class="nav">
+
+        <a class="logo"
+           th:href="@{/admin/painel}">
+            AccessOne - ADMIN
+        </a>
+
+        <form th:action="@{/logout}" method="post">
+
+            <input type="hidden"
+                   th:if="${_csrf != null}"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
+
+            <button class="botao secundario pequeno"
+                    type="submit">
+                Sair
+            </button>
+
+        </form>
+
+    </nav>
+
+</header>
+
+<main class="container">
+
+    <h1>Painel administrativo</h1>
+
+    <p class="subtitulo">
+        Visão geral das empresas e contas
+        cadastradas no AccessOne.
+    </p>
+
+    <div class="grade" style="margin-bottom: 24px;">
+
+        <div class="card">
+
+            <h2>Empresas</h2>
+
+            <p>
+                <strong th:text="${#lists.size(empresas)}">
+                    0
+                </strong>
+                cadastradas
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Produtos</h2>
+
+            <p>
+                <strong th:text="${totalProdutos}">
+                    0
+                </strong>
+                cadastrados
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Contas</h2>
+
+            <p>
+                <strong th:text="${totalUsuarios}">
+                    0
+                </strong>
+                usuários cadastrados
+            </p>
+
+        </div>
+
+    </div>
+
+    <section class="card">
+
+        <h2>Empresas cadastradas</h2>
+
+        <p th:if="${#lists.isEmpty(empresas)}">
+            Nenhuma empresa cadastrada até o momento.
+        </p>
+
+        <div class="tabela-rolavel"
+             th:unless="${#lists.isEmpty(empresas)}">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Razão social</th>
+                        <th>CNPJ</th>
+                        <th>Endereço</th>
+                        <th>Responsável</th>
+                        <th>E-mail</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr th:each="empresa : ${empresas}">
+
+                        <td th:text="${empresa.razaoSocial}"></td>
+
+                        <td th:text="${empresa.cnpj}"></td>
+
+                        <td th:text="${empresa.endereco}"></td>
+
+                        <td th:text="${empresa.usuario.nome}"></td>
+
+                        <td th:text="${empresa.usuario.email}"></td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

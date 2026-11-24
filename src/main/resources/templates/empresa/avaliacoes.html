@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Avaliações - AccessOne</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<header class="cabecalho">
+
+    <nav class="nav">
+
+        <a class="logo"
+           th:href="@{/empresa/minha}">
+            AccessOne
+        </a>
+
+        <a th:href="@{/empresa/minha}">
+            Voltar ao painel
+        </a>
+
+    </nav>
+
+</header>
+
+<main class="container">
+
+    <section class="card">
+
+        <h1>Avaliações recebidas</h1>
+
+        <p class="subtitulo">
+            Histórico de opiniões associadas
+            ao seu estabelecimento.
+        </p>
+
+        <p th:if="${#lists.isEmpty(avaliacoes)}">
+            Ainda não há avaliações cadastradas.
+            Elas poderão ser recebidas futuramente
+            pelo aplicativo mobile.
+        </p>
+
+        <div class="tabela-rolavel"
+             th:unless="${#lists.isEmpty(avaliacoes)}">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Nota</th>
+                        <th>Comentário</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr th:each="avaliacao : ${avaliacoes}">
+
+                        <td th:text="|${avaliacao.nota} / 5|">
+                        </td>
+
+                        <td th:text="${avaliacao.comentario != null ? avaliacao.comentario : 'Sem comentário'}">
+                        </td>
+
+                        <td th:text="${#temporals.format(avaliacao.data, 'dd/MM/yyyy HH:mm')}">
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

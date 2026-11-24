@@ -3,56 +3,45 @@ package br.com.accessone.accessone.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor 
 public class CadastroEmpresaDTO {
 
-    // Exige que o nome seja preenchido.
-    @NotBlank
-    // Limita o nome a 150 caracteres.
+    // Dados do responsável
+
+    @NotBlank(message = "Informe o nome do responsável.")
     @Size(max = 150)
     private String nome;
 
-    // CPF informado no cadastro.
-    @NotBlank
-    private String cpf;
-
-    // Telefone informado no cadastro.
-    @NotBlank
-    private String telefone;
-
-    // E-mail obrigatório e com formato válido.
-    @NotBlank
-    @Email
+    @NotBlank(message = "Informe o e-mail.")
+    @Email(message = "Informe um e-mail válido.")
     private String email;
 
-    // Senha obrigatória com pelo menos 8 caracteres.
-    // O serviço fará a codificação antes de salvar.
-    @NotBlank
-    @Size(min = 8, max = 72)
+    @NotBlank(message = "Informe a senha.")
+    @Size(min = 8, max = 72,
+          message = "A senha deve ter de 8 a 72 caracteres.")
     private String senha;
 
-    // Razão social da empresa.
-    @NotBlank
+    @NotBlank(message = "Confirme sua senha.")
+    private String confirmarSenha;
+
+    // Dados da empresa
+
+    @NotBlank(message = "Informe a razão social.")
     @Size(max = 200)
     private String razaoSocial;
 
-    // Inscrição estadual, quando aplicável.
     private String inscricaoEstadual;
 
-    // CNPJ da empresa.
-    @NotBlank
+    @NotBlank(message = "Informe o CNPJ.")
     private String cnpj;
 
-    // Endereço do estabelecimento.
-    @NotBlank
+    @NotBlank(message = "Informe o endereço da empresa.")
     private String endereco;
 }

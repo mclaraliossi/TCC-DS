@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Recursos de Acessibilidade - AccessOne</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<header class="cabecalho">
+
+    <nav class="nav">
+
+        <a class="logo"
+           th:href="@{/empresa/minha}">
+            AccessOne
+        </a>
+
+        <a th:href="@{/empresa/minha}">
+            Voltar ao painel
+        </a>
+
+    </nav>
+
+</header>
+
+<main class="container pequeno">
+
+    <section class="card">
+
+        <h1>Recursos de acessibilidade</h1>
+
+        <p class="subtitulo">
+            Selecione os recursos disponíveis
+            em seu estabelecimento.
+        </p>
+
+        <p class="aviso-ok"
+           role="status"
+           th:if="${param.salvo}">
+            Recursos atualizados com sucesso.
+        </p>
+
+        <form th:action="@{/empresa/acessibilidade}"
+              method="post">
+
+            <input type="hidden"
+                   th:if="${_csrf != null}"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
+
+            <div class="lista-recursos">
+
+                <div class="opcao"
+                     th:each="recurso, posicao : ${recursosDisponiveis}">
+
+                    <input type="checkbox"
+                           name="recursos"
+                           th:id="|recurso-${posicao.index}|"
+                           th:value="${recurso.name()}"
+                           th:checked="${empresa.recursosAcessibilidade.contains(recurso)}">
+
+                    <label th:for="|recurso-${posicao.index}|"
+                           th:text="${recurso.descricao}">
+                    </label>
+
+                </div>
+
+            </div>
+
+            <p class="ajuda">
+                Se nenhuma opção estiver marcada,
+                a empresa ficará sem recursos declarados.
+            </p>
+
+            <button class="botao" type="submit">
+                Salvar recursos
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+</body>
+</html>

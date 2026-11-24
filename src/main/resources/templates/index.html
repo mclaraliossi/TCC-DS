@@ -1,17 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Inicial</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AccessOne - Acessibilidade no comércio</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
 </head>
+
 <body>
-    <a th:href="@{/accessone/login}">
-        Login
-    </a>
-    
-    <a th:href="@{/empresas/criar}">
-        Cadastro de empresa
-    </a>
+
+<header class="cabecalho">
+    <nav class="nav" aria-label="Navegação principal">
+
+        <a class="logo" th:href="@{/}">
+            AccessOne
+        </a>
+
+        <div class="navegacao">
+            <a href="#sobre">Sobre</a>
+            <a href="#recursos">Recursos</a>
+            <a href="#empresas">Empresas</a>
+            <a th:href="@{/login}">Entrar</a>
+
+            <a class="botao"
+               th:href="@{/cadastro/empresa}">
+                Cadastrar empresa
+            </a>
+        </div>
+
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="destaque">
+
+        <h1>
+            Tecnologia para um atendimento mais acessível
+        </h1>
+
+        <p class="subtitulo">
+            O AccessOne aproxima estabelecimentos comerciais
+            de pessoas com deficiência sensorial, reunindo
+            informações sobre produtos e recursos de
+            acessibilidade.
+        </p>
+
+        <div class="acoes">
+
+            <a class="botao"
+               th:href="@{/cadastro/empresa}">
+                Cadastrar minha empresa
+            </a>
+
+            <a class="botao secundario"
+               th:href="@{/login}">
+                Já tenho uma conta
+            </a>
+
+        </div>
+
+    </section>
+
+    <section class="card" id="sobre">
+
+        <h2>Sobre o projeto</h2>
+
+        <p>
+            O AccessOne é um Trabalho de Conclusão de Curso
+            desenvolvido para promover inclusão e acessibilidade
+            em estabelecimentos comerciais.
+        </p>
+
+        <p>
+            A aplicação Web permite que as empresas cadastrem
+            seus dados, produtos e recursos de acessibilidade.
+            Uma aplicação mobile está planejada para facilitar
+            o acesso dos clientes a essas informações.
+        </p>
+
+    </section>
+
+    <section id="recursos">
+
+        <h2>Recursos do AccessOne</h2>
+
+        <div class="grade">
+
+            <div class="card">
+
+                <h3>Catálogo de produtos</h3>
+
+                <p>
+                    Cadastro de descrições, ingredientes,
+                    alergênicos e informações nutricionais.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Recursos de acessibilidade</h3>
+
+                <p>
+                    Cada estabelecimento informa quais
+                    recursos de atendimento acessível oferece.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Funcionalidades planejadas</h3>
+
+                <p>
+                    O projeto prevê mapa de estabelecimentos,
+                    identificação de produtos por câmera,
+                    recursos de Libras e descrições por áudio.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="card"
+             id="empresas"
+             style="margin-top: 24px;">
+
+        <h2>Para empresas</h2>
+
+        <p>
+            Cadastre seu estabelecimento, organize seus produtos
+            e informe as acessibilidades disponíveis.
+        </p>
+
+        <p>
+            Cada empresa terá acesso apenas aos seus próprios
+            dados e produtos.
+        </p>
+
+        <a class="botao"
+           th:href="@{/cadastro/empresa}">
+            Começar cadastro
+        </a>
+
+    </section>
+
+</main>
+
+<footer class="rodape">
+    AccessOne - Projeto acadêmico de acessibilidade
+</footer>
+
 </body>
 </html>

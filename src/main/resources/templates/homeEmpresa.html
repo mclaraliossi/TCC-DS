@@ -1,15 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - AccessOne</title>
-</head>
-<body>
-    <h1 class="textPrincipal">Bem-vindo ao Sistema AccessOne</h1>
-    <h3 class="textTerciario"><a href="/produtos/listar">Listar Produtos</a></h3>
-   
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <button class="btnVoltar" ><a class="linkVoltar" href="/accessone">Voltar</a></button>
+    <title>Minha Empresa - AccessOne</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<header class="cabecalho">
+
+    <nav class="nav">
+
+        <a class="logo" th:href="@{/empresa/minha}">
+            AccessOne
+        </a>
+
+        <div class="navegacao">
+
+            <a th:href="@{/produtos/listar}">
+                Meus produtos
+            </a>
+
+            <a th:href="@{/empresa/acessibilidade}">
+                Acessibilidade
+            </a>
+
+            <a th:href="@{/empresa/avaliacoes}">
+                Avaliações
+            </a>
+
+            <form th:action="@{/logout}"
+                  method="post"
+                  class="inline-form">
+
+                <input type="hidden"
+                       th:if="${_csrf != null}"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <button class="botao secundario pequeno"
+                        type="submit">
+                    Sair
+                </button>
+
+            </form>
+
+        </div>
+
+    </nav>
+
+</header>
+
+<main class="container">
+
+    <h1 th:text="|Bem-vindo ao painel de ${empresa.razaoSocial}|">
+        Bem-vindo ao painel da empresa
+    </h1>
+
+    <p class="subtitulo">
+        Gerencie os dados e produtos do seu estabelecimento.
+    </p>
+
+    <div class="grade">
+
+        <section class="card">
+
+            <h2>Meus produtos</h2>
+
+            <p>
+                <strong th:text="${quantidadeProdutos}">
+                    0
+                </strong>
+                produto(s) cadastrado(s).
+            </p>
+
+            <div class="acoes">
+
+                <a class="botao"
+                   th:href="@{/produtos/listar}">
+                    Ver produtos
+                </a>
+
+                <a class="botao secundario"
+                   th:href="@{/produtos/criar}">
+                    Novo produto
+                </a>
+
+            </div>
+
+        </section>
+
+        <section class="card">
+
+            <h2>Recursos de acessibilidade</h2>
+
+            <p>
+                Informe os recursos de atendimento disponíveis
+                no seu estabelecimento.
+            </p>
+
+            <a class="botao"
+               th:href="@{/empresa/acessibilidade}">
+                Gerenciar recursos
+            </a>
+
+        </section>
+
+        <section class="card">
+
+            <h2>Avaliações recebidas</h2>
+
+            <p>
+                Consulte os comentários associados
+                ao seu estabelecimento.
+            </p>
+
+            <a class="botao"
+               th:href="@{/empresa/avaliacoes}">
+                Consultar avaliações
+            </a>
+
+        </section>
+
+    </div>
+
+    <section class="card" style="margin-top: 24px;">
+
+        <h2>Dados do estabelecimento</h2>
+
+        <dl class="info">
+
+            <dt>Razão social</dt>
+            <dd th:text="${empresa.razaoSocial}"></dd>
+
+            <dt>CNPJ</dt>
+            <dd th:text="${empresa.cnpj}"></dd>
+
+            <dt>Inscrição estadual</dt>
+
+            <dd th:text="${empresa.inscricaoEstadual != null and !empresa.inscricaoEstadual.isEmpty() ? empresa.inscricaoEstadual : 'Não informada'}">
+            </dd>
+
+            <dt>Endereço</dt>
+            <dd th:text="${empresa.endereco}"></dd>
+
+        </dl>
+
+        <h3 style="margin-top: 22px;">
+            Acessibilidade declarada
+        </h3>
+
+        <p th:if="${empresa.recursosAcessibilidade.isEmpty()}">
+            Nenhum recurso informado ainda.
+        </p>
+
+        <ul th:unless="${empresa.recursosAcessibilidade.isEmpty()}">
+
+            <li th:each="recurso : ${empresa.recursosAcessibilidade}"
+                th:text="${recurso.descricao}">
+            </li>
+
+        </ul>
+
+    </section>
+
+</main>
+
 </body>
 </html>

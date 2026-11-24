@@ -1,81 +1,381 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Formulário de Produto - AccessOne</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
 </head>
-<body class="bodyFormCad">
-    <h1 class="textPrincipal">Cadastro de Produtos</h1>
-    <form class="formCad" th:action="@{/produtos/salvar}" method="post" th:object="${produto}">
 
-        <h2 class="tituloForm">Formulário de Produto</h2>
-        <input class="inputCad" type="hidden" th:field="*{idProduto}">
+<body>
 
-        <label class="labelCad" for="nomeProduto">Nome:</label>
-        <input class="inputCad" type="text" id="nomeProduto" th:field="*{nomeProduto}" required maxlength="50"><br><br>
+<header class="cabecalho">
 
-        <label class="labelCad" for="marcaProduto">Marca:</label>
-        <input class="inputCad" type="text" id="marcaProduto" th:field="*{marcaProduto}" required maxlength="50"><br><br>
+    <nav class="nav">
 
-        <label class="labelCad" for="descricaoProduto">Descrição:</label>
-        <input class="inputCad" type="text" id="descricaoProduto" th:field="*{descricaoProduto}" required maxlength="100"><br><br>
+        <a class="logo"
+           th:href="@{/empresa/minha}">
+            AccessOne
+        </a>
 
-        <label class="labelCad" for="precoProduto">Preço:</label>
-        <input class="inputCad" type="number" id="precoProduto" th:field="*{precoProduto}" step="0.01" min="0"><br><br>
+        <a th:href="@{/produtos/listar}">
+            Voltar aos produtos
+        </a>
 
-        <label class="labelCad" for="validadeProduto">Data de validade:</label>
-        <input class="inputCad" type="date" id="validadeProduto" th:field="*{validadeProduto}"><br><br>
+    </nav>
 
-        <label class="labelCad" for="datafabricacaoProduto">Data de fabricação:</label>
-        <input class="inputCad" type="date" id="datafabricacaoProduto" th:field="*{datafabricacaoProduto}"><br><br>
+</header>
 
-        <label class="labelCad" for="loteProduto">Lote:</label>
-        <input class="inputCad" type="text" id="loteProduto" th:field="*{loteProduto}" required maxlength="50"><br><br>
+<main class="container">
 
-        <label class="labelCad" for="paisorigemProduto">País de origem:</label>
-        <input class="inputCad" type="text" id="paisorigemProduto" th:field="*{paisorigemProduto}" required maxlength="30"><br><br>
+    <div class="card">
 
-        <label class="labelCad" for="empresaProduto">Empresa:</label>
-        <input class="inputCad" type="text" id="empresaProduto" th:field="*{empresaProduto}" required maxlength="30"><br><br>
+        <h1 th:text="${produto.idProduto == null ? 'Cadastrar produto' : 'Editar produto'}">
+            Produto
+        </h1>
 
-        <label class="labelCad" for="porcaoProduto">Porção (g ou ml):</label>
-        <input class="inputCad" type="number" id="porcaoProduto" th:field="*{porcaoProduto}" step="0.01" min="0"><br><br>
+        <p class="subtitulo">
+            O produto será associado automaticamente
+            à empresa da sua conta.
+        </p>
 
-        <label class="labelCad" for="valorenergeticoProduto">Valor energético:</label>
-        <input class="inputCad" type="text" id="valorenergeticoProduto" th:field="*{valorenergeticoProduto}"><br><br>
+        <form th:action="@{/produtos/salvar}"
+              th:object="${produto}"
+              method="post">
 
-        <label class="labelCad" for="carboidratosProduto">Carboidratos:</label>
-        <input class="inputCad" type="text" id="carboidratosProduto" th:field="*{carboidratosProduto}"><br><br>
+            <input type="hidden"
+                   th:if="${_csrf != null}"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}">
 
-        <label class="labelCad" for="proteinasProduto">Proteínas:</label>
-        <input class="inputCad" type="text" id="proteinasProduto" th:field="*{proteinasProduto}"><br><br>
+            <input type="hidden"
+                   th:field="*{idProduto}">
 
-        <label class="labelCad" for="gordurastotaisProduto">Gorduras totais:</label>
-        <input class="inputCad" type="text" id="gordurastotaisProduto" th:field="*{gordurastotaisProduto}"><br><br>
+            <!-- Mensagens de validação -->
 
-        <label class="labelCad" for="gordurassaturadasProduto">Gorduras saturadas:</label>
-        <input class="inputCad" type="text" id="gordurassaturadasProduto" th:field="*{gordurassaturadasProduto}"><br><br>
+            <div class="aviso-erro"
+                 role="alert"
+                 th:if="${#fields.hasAnyErrors()}">
 
-        <label class="labelCad" for="fibrasProduto">Fibras:</label>
-        <input class="inputCad" type="text" id="fibrasProduto" th:field="*{fibrasProduto}"><br><br>
+                <p>Revise os campos abaixo:</p>
 
-        <label class="labelCad" for="sodioProduto">Sódio:</label>
-        <input class="inputCad" type="text" id="sodioProduto" th:field="*{sodioProduto}"><br><br>
+                <ul>
+                    <li th:each="erro : ${#fields.allErrors()}"
+                        th:text="${erro}">
+                    </li>
+                </ul>
 
-        <label class="labelCad" for="ingredientesProduto">Ingredientes:</label>
-        <input class="inputCad" type="text" id="ingredientesProduto" th:field="*{ingredientesProduto}" required maxlength="100"><br><br>
+            </div>
 
-        <label class="labelCad" for="alergicosProduto">Alérgicos:</label>
-        <input class="inputCad" type="text" id="alergicosProduto" th:field="*{alergicosProduto}" required maxlength="100"><br><br>
+            <!-- INFORMAÇÕES GERAIS -->
 
+            <fieldset class="secao-form">
 
-        <button class="btnSalvar" type="submit">Salvar</button>
+                <legend>Informações gerais</legend>
 
-    </form>
-    <br><br>
+                <div class="form-grid">
 
-    <button class="btnVoltar" ><a class="linkVoltar" href="/home">Voltar</a></button>
-    
+                    <div class="campo">
+
+                        <label for="nomeProduto">
+                            Nome do produto *
+                        </label>
+
+                        <input type="text"
+                               id="nomeProduto"
+                               th:field="*{nomeProduto}"
+                               maxlength="50"
+                               required>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="marcaProduto">
+                            Marca *
+                        </label>
+
+                        <input type="text"
+                               id="marcaProduto"
+                               th:field="*{marcaProduto}"
+                               maxlength="50"
+                               required>
+
+                    </div>
+
+                    <div class="campo ocupa-tudo">
+
+                        <label for="descricaoProduto">
+                            Descrição *
+                        </label>
+
+                        <textarea id="descricaoProduto"
+                                  th:field="*{descricaoProduto}"
+                                  maxlength="1000"
+                                  required>
+                        </textarea>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="precoProduto">
+                            Preço (R$)
+                        </label>
+
+                        <input type="number"
+                               id="precoProduto"
+                               th:field="*{precoProduto}"
+                               step="0.01"
+                               min="0">
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="imagemUrl">
+                            Link da imagem
+                        </label>
+
+                        <input type="url"
+                               id="imagemUrl"
+                               th:field="*{imagemUrl}"
+                               maxlength="500"
+                               placeholder="https://site.com/imagem.jpg">
+
+                        <p class="ajuda">
+                            Informe uma URL pública da imagem.
+                        </p>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="validadeProduto">
+                            Validade
+                        </label>
+
+                        <input type="date"
+                               id="validadeProduto"
+                               th:field="*{validadeProduto}">
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="datafabricacaoProduto">
+                            Data de fabricação
+                        </label>
+
+                        <input type="date"
+                               id="datafabricacaoProduto"
+                               th:field="*{datafabricacaoProduto}">
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="loteProduto">
+                            Lote *
+                        </label>
+
+                        <input type="text"
+                               id="loteProduto"
+                               th:field="*{loteProduto}"
+                               maxlength="50"
+                               required>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="paisorigemProduto">
+                            País de origem *
+                        </label>
+
+                        <input type="text"
+                               id="paisorigemProduto"
+                               th:field="*{paisorigemProduto}"
+                               maxlength="30"
+                               required>
+
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <!-- INFORMAÇÕES NUTRICIONAIS -->
+
+            <fieldset class="secao-form">
+
+                <legend>Informações nutricionais</legend>
+
+                <div class="form-grid">
+
+                    <div class="campo">
+
+                        <label for="porcaoProduto">
+                            Porção (g/ml)
+                        </label>
+
+                        <input type="number"
+                               id="porcaoProduto"
+                               th:field="*{porcaoProduto}"
+                               min="0"
+                               step="0.01">
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="valorenergeticoProduto">
+                            Valor energético (kcal)
+                        </label>
+
+                        <input type="text"
+                               id="valorenergeticoProduto"
+                               th:field="*{valorenergeticoProduto}">
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="carboidratosProduto">
+                            Carboidratos (g)
+                        </label>
+
+                        <input type="text"
+                               id="carboidratosProduto"
+                               th:field="*{carboidratosProduto}">
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="proteinasProduto">
+                            Proteínas (g)
+                        </label>
+
+                        <input type="text"
+                               id="proteinasProduto"
+                               th:field="*{proteinasProduto}">
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="gordurastotaisProduto">
+                            Gorduras totais (g)
+                        </label>
+
+                        <input type="text"
+                               id="gordurastotaisProduto"
+                               th:field="*{gordurastotaisProduto}">
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="gordurassaturadasProduto">
+                            Gorduras saturadas (g)
+                        </label>
+
+                        <input type="text"
+                               id="gordurassaturadasProduto"
+                               th:field="*{gordurassaturadasProduto}">
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="fibrasProduto">
+                            Fibras (g)
+                        </label>
+
+                        <input type="text"
+                               id="fibrasProduto"
+                               th:field="*{fibrasProduto}">
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="sodioProduto">
+                            Sódio (mg)
+                        </label>
+
+                        <input type="text"
+                               id="sodioProduto"
+                               th:field="*{sodioProduto}">
+
+                    </div>
+
+                </div>
+
+            </fieldset>
+
+            <!-- INGREDIENTES E ALERGÊNICOS -->
+
+            <fieldset class="secao-form">
+
+                <legend>Ingredientes e alergênicos</legend>
+
+                <div class="campo">
+
+                    <label for="ingredientesProduto">
+                        Ingredientes *
+                    </label>
+
+                    <textarea id="ingredientesProduto"
+                              th:field="*{ingredientesProduto}"
+                              maxlength="1000"
+                              required>
+                    </textarea>
+
+                </div>
+
+                <div class="campo">
+
+                    <label for="alergicosProduto">
+                        Alergênicos *
+                    </label>
+
+                    <textarea id="alergicosProduto"
+                              th:field="*{alergicosProduto}"
+                              maxlength="1000"
+                              placeholder="Liste os alergênicos ou escreva Não contém"
+                              required>
+                    </textarea>
+
+                </div>
+
+            </fieldset>
+
+            <div class="acoes">
+
+                <button type="submit" class="botao">
+                    Salvar produto
+                </button>
+
+                <a class="botao secundario"
+                   th:href="@{/produtos/listar}">
+                    Cancelar
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
 </body>
 </html>
